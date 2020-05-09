@@ -1,0 +1,26 @@
+version: "2"
+
+services:
+
+  prometheus:
+    image: quay.io/prometheus/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    ports:
+      - 9090:9090
+    restart: always
+
+  cm600_exporter:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    environment:
+      CM600_CONFIG: /etc/cm600.ini
+      PYTHONUNBUFFERED: 'x'
+    volumes:
+      - ./cm600.ini:/etc/cm600.ini
+    restart: always
+
+volumes:
+  prometheus_data: {}
