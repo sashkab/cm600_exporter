@@ -1,4 +1,4 @@
-FROM python:3.8-alpine as builder
+FROM python:3.10-alpine as builder
 
 LABEL description="cm600-exporter" maintainer="docker@compuix.com"
 
@@ -9,7 +9,7 @@ RUN python3 -mpip install -U pip setuptools wheel tox \
     && python3 -mpip wheel -w /wheel . \
     && tox
 
-FROM python:3.8-alpine
+FROM python:3.10-alpine
 
 COPY --from=builder /wheel/*.whl /wheel/
 
